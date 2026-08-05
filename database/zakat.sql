@@ -44,6 +44,17 @@ CREATE TABLE IF NOT EXISTS transaksi_zakat (
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------
+-- Tabel settings (pengaturan global, key-value)
+-- ---------------------------------------------
+CREATE TABLE IF NOT EXISTS settings (
+    kunci VARCHAR(50) PRIMARY KEY,
+    nilai VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
+INSERT INTO settings (kunci, nilai) VALUES ('harga_emas_per_gram', '1300000')
+ON DUPLICATE KEY UPDATE nilai = VALUES(nilai);
+
+-- ---------------------------------------------
 -- Data awal: admin default (admin / admin123)
 -- ---------------------------------------------
 INSERT INTO users (nama, username, password) VALUES

@@ -22,6 +22,7 @@ $halaman = isset($halaman) ? $halaman : 'dashboard';
         <a href="muzakki.php" class="<?= $halaman == 'muzakki' ? 'active' : '' ?>">Muzakki</a>
         <a href="transaksi.php" class="<?= $halaman == 'transaksi' ? 'active' : '' ?>">Transaksi</a>
         <a href="laporan.php" class="<?= $halaman == 'laporan' ? 'active' : '' ?>">Laporan</a>
+        <a href="pengaturan.php" class="<?= $halaman == 'pengaturan' ? 'active' : '' ?>">Pengaturan</a>
         <a href="users.php" class="<?= $halaman == 'users' ? 'active' : '' ?>">Users</a>
         <a class="btn-logout" href="../logout.php">Keluar (<?= htmlspecialchars($namaAdmin) ?>)</a>
     </div>

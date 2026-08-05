@@ -57,6 +57,17 @@ $transaksiTerbaru = mysqli_query($conn, "SELECT t.*, m.nama FROM transaksi_zakat
         </div>
     </div>
 
-    <p style="color:var(--abu);font-size:.85rem">Jumlah admin: <?= $jmlUsers ?> &middot; Harga emas/gram saat ini: <?= rupiah(hargaEmasPerGram()) ?></p>
+    <p style="color:var(--abu);font-size:.85rem">Jumlah admin: <?= $jmlUsers ?></p>
+
+    <div class="card">
+        <div class="bar-aksi">
+            <div>
+                <h2 style="margin-bottom:0">Harga Emas per Gram</h2>
+                <p style="margin:.25rem 0 0;color:var(--abu)">Nisab (85 gr): <?= rupiah(hargaEmasPerGram() * NISAB_GRAM) ?></p>
+            </div>
+            <a class="btn btn-kuning" href="pengaturan.php">Ubah Harga</a>
+        </div>
+        <p style="font-size:1.4rem;margin:1rem 0 0"><?= rupiah(hargaEmasPerGram()) ?></p>
+    </div>
 </div>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

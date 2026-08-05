@@ -2,12 +2,29 @@
 // fungsi & konstanta umum (dipakai publik dan admin)
 define('NISAB_GRAM', 85);
 define('KADAR_ZAKAT', 0.025);
+define('HARGA_EMAS_DEFAULT', 1300000);
 
 function hargaEmasPerGram() {
-    if (isset($_SESSION['harga_emas']) && is_numeric($_SESSION['harga_emas'])) {
-        return (float) $_SESSION['harga_emas'];
+    global $conn;
+    if (!isset($conn)) {
+        return HARGA_EMAS_DEFAULT;
     }
-    return 1300000;
+    $hasil = mysqli_query($conn, "SELECT nilai FROM settings WHERE kunci = 'harga_emas_per_gram' LIMIT 1");
+    if ($hasil && $row = mysqli_fetch_assoc($hasil)) {
+        if (is_numeric($row['nilai'])) {
+            return (float) $row['nilai'];
+        }
+    }
+    return HARGA_EMAS_DEFAULT;
+}
+
+function simpanHargaEmas($nilai) {
+    global $conn;
+    $nilai = (float) $nilai;
+    $stmt = mysqli_prepare($conn, "INSERT INTO settings (kunci, nilai) VALUES ('harga_emas_per_gram', ?)
+                                   ON DUPLICATE KEY UPDATE nilai = VALUES(nilai)");
+    mysqli_stmt_bind_param($stmt, 'd', $nilai);
+    return mysqli_stmt_execute($stmt);
 }
 
 function hitungZakat($totalHarta) {

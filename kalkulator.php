@@ -16,10 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tabungan  = (float) str_replace(['.', ' '], '', $_POST['tabungan'] ?? 0);
     $emasGram  = (float) str_replace([',', ' '], '.', $_POST['emas_gram'] ?? 0);
 
-    if (isset($_POST['harga_emas']) && is_numeric($_POST['harga_emas'])) {
-        $_SESSION['harga_emas'] = (float) $_POST['harga_emas'];
-    }
-
     $totalHarta = $uangTunai + $tabungan + (hargaEmasPerGram() * $emasGram);
     $nisab = hargaEmasPerGram() * NISAB_GRAM;
     $hasil = hitungZakat($totalHarta);
@@ -43,12 +39,8 @@ require_once __DIR__ . '/includes/header.php';
                     <input type="text" name="tabungan" value="<?= $tabungan > 0 ? number_format($tabungan, 0, ',', '.') : '' ?>" placeholder="Contoh: 100.000.000" oninput="formatAngka(this)">
                 </div>
                 <div class="form-group">
-                    <label>Emas (gram)</label>
+                    <label>Emas (gram) &mdash; harga per gram <?= rupiah(hargaEmasPerGram()) ?></label>
                     <input type="number" step="0.01" name="emas_gram" value="<?= $emasGram > 0 ? $emasGram : '' ?>" placeholder="Contoh: 100">
-                </div>
-                <div class="form-group">
-                    <label>Harga Emas per Gram (opsional, default <?= rupiah(hargaEmasPerGram()) ?>)</label>
-                    <input type="number" step="1000" name="harga_emas" value="<?= hargaEmasPerGram() ?>" placeholder="Contoh: 1300000">
                 </div>
                 <button type="submit" class="btn">Hitung Zakat</button>
             </form>

@@ -10,9 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $metode = $_POST['metode'] ?? 'Tunai';
     $tanggal = $_POST['tanggal_pembayaran'] ?? date('Y-m-d');
 
-    if ($muzakki_id <= 0 || $jumlah_zakat <= 0) {
-        $error = 'Pilih muzakki dan pastikan jumlah zakat lebih dari 0!';
-    } else {
+    if ($muzakki_id <= 0) {
+        $error = 'Pilih muzakki terlebih dahulu!';
+    } elseif ($jumlah_zakat <= 0) {
+        $mn = mysqli_query($conn, "SELECT total_harta FROM muzakki WHERE id = $muzakki_id");
+        $mnRow = $mn ? mysqli_fetch_assoc($mn) : null;
+        if ($mnRow) {
+            $jumlah_zakat = hitungZakat((float) $mnRow['total_harta']);
+            if ($jumlah_zakat <= 0) {
+                $error = 'Total harta muzakki belum mencapai nisab, sehingga tidak wajib zakat.';
+            }
+        }
+    }
+
+    if ($error === '' && $jumlah_zakat > 0) {
         $stmt = mysqli_prepare($conn, "INSERT INTO transaksi_zakat (muzakki_id, jumlah_zakat, metode, tanggal_pembayaran) VALUES (?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, 'idss', $muzakki_id, $jumlah_zakat, $metode, $tanggal);
         if (mysqli_stmt_execute($stmt)) {
