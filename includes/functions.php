@@ -39,4 +39,28 @@ function hitungZakat($totalHarta) {
 function rupiah($angka) {
     return 'Rp ' . number_format((float) $angka, 2, ',', '.');
 }
+
+function paginasi($baseUrl, array $params, $halamanSekarang, $totalHalaman) {
+    if ($totalHalaman <= 1) return '';
+    unset($params['page']);
+    $html = '<div class="pagination">';
+    if ($halamanSekarang > 1) {
+        $params['page'] = $halamanSekarang - 1;
+        $html .= '<a class="page-btn" href="' . $baseUrl . '?' . http_build_query($params) . '">&laquo; Sebelumnya</a>';
+    }
+    for ($i = 1; $i <= $totalHalaman; $i++) {
+        if ($i == $halamanSekarang) {
+            $html .= '<span class="page-btn aktif">' . $i . '</span>';
+        } else {
+            $params['page'] = $i;
+            $html .= '<a class="page-btn" href="' . $baseUrl . '?' . http_build_query($params) . '">' . $i . '</a>';
+        }
+    }
+    if ($halamanSekarang < $totalHalaman) {
+        $params['page'] = $halamanSekarang + 1;
+        $html .= '<a class="page-btn" href="' . $baseUrl . '?' . http_build_query($params) . '">Berikutnya &raquo;</a>';
+    }
+    $html .= '</div>';
+    return $html;
+}
 ?>

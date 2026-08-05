@@ -349,6 +349,38 @@ tr:hover {
     font-size: .85rem;
 }
 
+/* ---------- Pagination ---------- */
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.page-btn {
+    display: inline-block;
+    padding: 7px 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .85rem;
+    color: var(--hijau);
+    background: #fff;
+    text-decoration: none;
+}
+
+.page-btn:hover {
+    background: var(--hijau-muda);
+    border-color: var(--hijau);
+}
+
+.page-btn.aktif {
+    background: var(--hijau);
+    color: #fff;
+    border-color: var(--hijau);
+    font-weight: 600;
+}
+
 /* ---------- Aksi bar ---------- */
 .bar-aksi {
     display: flex;

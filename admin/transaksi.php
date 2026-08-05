@@ -4,15 +4,27 @@ $halaman = 'transaksi';
 require_once __DIR__ . '/../includes/header_admin.php';
 
 $q = trim($_GET['q'] ?? '');
+$perHalaman = 10;
+$halaman = max(1, (int) ($_GET['page'] ?? 1));
+$offset = ($halaman - 1) * $perHalaman;
+
 if ($q !== '') {
     $like = '%' . $q . '%';
-    $stmt = mysqli_prepare($conn, "SELECT t.*, m.nama FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id WHERE m.nama LIKE ? ORDER BY t.tanggal_pembayaran DESC, t.id DESC");
+    $stmt = mysqli_prepare($conn, "SELECT COUNT(*) c FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id WHERE m.nama LIKE ?");
     mysqli_stmt_bind_param($stmt, 's', $like);
+    mysqli_stmt_execute($stmt);
+    $totalTransaksi = (int) mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))['c'];
+
+    $stmt = mysqli_prepare($conn, "SELECT t.*, m.nama FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id WHERE m.nama LIKE ? ORDER BY t.tanggal_pembayaran DESC, t.id DESC LIMIT ? OFFSET ?");
+    mysqli_stmt_bind_param($stmt, 'sii', $like, $perHalaman, $offset);
     mysqli_stmt_execute($stmt);
     $data = mysqli_stmt_get_result($stmt);
 } else {
-    $data = mysqli_query($conn, "SELECT t.*, m.nama FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id ORDER BY t.tanggal_pembayaran DESC, t.id DESC");
+    $totalTransaksi = (int) mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) c FROM transaksi_zakat"))['c'];
+    $data = mysqli_query($conn, "SELECT t.*, m.nama FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id ORDER BY t.tanggal_pembayaran DESC, t.id DESC LIMIT $perHalaman OFFSET $offset");
 }
+
+$totalHalaman = max(1, (int) ceil($totalTransaksi / $perHalaman));
 ?>
 <div class="container">
     <h1 class="halaman">Transaksi Zakat</h1>
@@ -43,7 +55,7 @@ if ($q !== '') {
                 <th>Metode</th>
                 <th>Aksi</th>
             </tr>
-            <?php if (mysqli_num_rows($data) > 0): $i = 1; while ($r = mysqli_fetch_assoc($data)): ?>
+            <?php if (mysqli_num_rows($data) > 0): $i = $offset + 1; while ($r = mysqli_fetch_assoc($data)): ?>
             <tr>
                 <td><?= $i++ ?></td>
                 <td><?= htmlspecialchars($r['tanggal_pembayaran']) ?></td>
@@ -60,5 +72,7 @@ if ($q !== '') {
             <?php endif; ?>
         </table>
     </div>
+
+    <?= paginasi('transaksi.php', $_GET, $halaman, $totalHalaman) ?>
 </div>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

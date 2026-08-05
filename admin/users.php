@@ -3,7 +3,14 @@ $judul = 'Manajemen Admin';
 $halaman = 'users';
 require_once __DIR__ . '/../includes/header_admin.php';
 
-$data = mysqli_query($conn, "SELECT id, nama, username, created_at FROM users ORDER BY id");
+$perHalaman = 10;
+$halaman = max(1, (int) ($_GET['page'] ?? 1));
+$offset = ($halaman - 1) * $perHalaman;
+
+$totalUsers = (int) mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) c FROM users"))['c'];
+$totalHalaman = max(1, (int) ceil($totalUsers / $perHalaman));
+
+$data = mysqli_query($conn, "SELECT id, nama, username, created_at FROM users ORDER BY id LIMIT $perHalaman OFFSET $offset");
 ?>
 <div class="container">
     <h1 class="halaman">Manajemen Admin</h1>
@@ -29,7 +36,7 @@ $data = mysqli_query($conn, "SELECT id, nama, username, created_at FROM users OR
                 <th>Dibuat Pada</th>
                 <th>Aksi</th>
             </tr>
-            <?php $i = 1; while ($r = mysqli_fetch_assoc($data)): ?>
+            <?php $i = $offset + 1; while ($r = mysqli_fetch_assoc($data)): ?>
             <tr>
                 <td><?= $i++ ?></td>
                 <td><?= htmlspecialchars($r['nama']) ?></td>
@@ -45,5 +52,7 @@ $data = mysqli_query($conn, "SELECT id, nama, username, created_at FROM users OR
             <?php endwhile; ?>
         </table>
     </div>
+
+    <?= paginasi('users.php', $_GET, $halaman, $totalHalaman) ?>
 </div>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

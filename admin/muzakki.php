@@ -4,17 +4,27 @@ $halaman = 'muzakki';
 require_once __DIR__ . '/../includes/header_admin.php';
 
 $q = trim($_GET['q'] ?? '');
+$perHalaman = 10;
+$halaman = max(1, (int) ($_GET['page'] ?? 1));
+$offset = ($halaman - 1) * $perHalaman;
+
 if ($q !== '') {
     $like = '%' . $q . '%';
-    $stmt = mysqli_prepare($conn, "SELECT * FROM muzakki WHERE nama LIKE ? OR no_hp LIKE ? OR alamat LIKE ? ORDER BY nama");
+    $stmt = mysqli_prepare($conn, "SELECT COUNT(*) c FROM muzakki WHERE nama LIKE ? OR no_hp LIKE ? OR alamat LIKE ?");
     mysqli_stmt_bind_param($stmt, 'sss', $like, $like, $like);
     mysqli_stmt_execute($stmt);
+    $totalMuzakki = (int) mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))['c'];
+
+    $stmt = mysqli_prepare($conn, "SELECT * FROM muzakki WHERE nama LIKE ? OR no_hp LIKE ? OR alamat LIKE ? ORDER BY nama LIMIT ? OFFSET ?");
+    mysqli_stmt_bind_param($stmt, 'sssii', $like, $like, $like, $perHalaman, $offset);
+    mysqli_stmt_execute($stmt);
     $data = mysqli_stmt_get_result($stmt);
-    $totalMuzakki = mysqli_num_rows($data);
 } else {
-    $data = mysqli_query($conn, "SELECT * FROM muzakki ORDER BY nama");
-    $totalMuzakki = mysqli_num_rows($data);
+    $totalMuzakki = (int) mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) c FROM muzakki"))['c'];
+    $data = mysqli_query($conn, "SELECT * FROM muzakki ORDER BY nama LIMIT $perHalaman OFFSET $offset");
 }
+
+$totalHalaman = max(1, (int) ceil($totalMuzakki / $perHalaman));
 ?>
 <div class="container">
     <h1 class="halaman">Data Muzakki</h1>
@@ -46,7 +56,7 @@ if ($q !== '') {
                 <th>No. HP</th>
                 <th>Aksi</th>
             </tr>
-            <?php if ($totalMuzakki > 0): $i = 1; while ($r = mysqli_fetch_assoc($data)): ?>
+            <?php if ($totalMuzakki > 0): $i = $offset + 1; while ($r = mysqli_fetch_assoc($data)): ?>
             <tr>
                 <td><?= $i++ ?></td>
                 <td><?= htmlspecialchars($r['nama']) ?></td>
@@ -64,5 +74,7 @@ if ($q !== '') {
             <?php endif; ?>
         </table>
     </div>
+
+    <?= paginasi('muzakki.php', $_GET, $halaman, $totalHalaman) ?>
 </div>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
