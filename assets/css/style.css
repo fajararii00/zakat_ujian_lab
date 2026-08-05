@@ -1,0 +1,375 @@
+:root {
+    --hijau: #0e9f6e;
+    --hijau-gelap: #0b7d56;
+    --hijau-muda: #f0fdf6;
+    --emas: #d97706;
+    --abu: #6b7280;
+    --abu-muda: #f3f4f6;
+    --border: #e5e7eb;
+    --merah: #dc2626;
+    --biru: #2563eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f9fafb;
+    color: #111827;
+    line-height: 1.6;
+}
+
+/* ---------- Header / Navbar ---------- */
+.navbar {
+    background: var(--hijau);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.navbar .brand {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 14px 0;
+}
+
+.navbar .brand span {
+    color: #fde68a;
+}
+
+.nav-links {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 12px;
+    font-size: .9rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: var(--hijau-gelap);
+}
+
+.nav-links a.btn-logout {
+    background: rgba(255,255,255,.15);
+    border-radius: 6px;
+    margin: 8px 0;
+    padding: 8px 14px;
+}
+
+/* ---------- Layout ---------- */
+.container {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-bottom: 16px;
+    color: var(--hijau-gelap);
+    font-size: 1.2rem;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--hijau), var(--hijau-gelap));
+    color: #fff;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    opacity: .9;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/* ---------- Grid ---------- */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+/* ---------- Stats ---------- */
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stat-card .angka {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--hijau);
+}
+
+.stat-card .label {
+    color: var(--abu);
+    font-size: .85rem;
+}
+
+/* ---------- Tabel ---------- */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: .9rem;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--hijau-muda);
+    color: var(--hijau-gelap);
+    font-weight: 600;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+/* ---------- Form ---------- */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .9rem;
+    font-family: inherit;
+    background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--hijau);
+    border-color: var(--hijau);
+}
+
+/* ---------- Tombol ---------- */
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    background: var(--hijau);
+    transition: background .15s;
+}
+
+.btn:hover {
+    background: var(--hijau-gelap);
+}
+
+.btn-ekor {
+    background: var(--biru);
+}
+
+.btn-ekor:hover {
+    background: #1d4ed8;
+}
+
+.btn-biru {
+    background: var(--biru);
+}
+
+.btn-biru:hover {
+    background: #1d4ed8;
+}
+
+.btn-kuning {
+    background: var(--emas);
+}
+
+.btn-kuning:hover {
+    background: #b45309;
+}
+
+.btn-merah {
+    background: var(--merah);
+}
+
+.btn-merah:hover {
+    background: #b91c1c;
+}
+
+.btn-kecil {
+    padding: 6px 12px;
+    font-size: .8rem;
+}
+
+.btn-tengah {
+    background: var(--emas);
+    color: #fff;
+}
+
+/* ---------- Alert ---------- */
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: .9rem;
+}
+
+.alert-success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.alert-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* ---------- Kalkulator ---------- */
+.result-box {
+    background: var(--hijau-muda);
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.result-box .total {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--hijau);
+}
+
+/* ---------- Login ---------- */
+.login-wrap {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 0 16px;
+}
+
+.login-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+
+.login-box h1 {
+    text-align: center;
+    color: var(--hijau);
+    margin-bottom: 4px;
+}
+
+.login-box .sub {
+    text-align: center;
+    color: var(--abu);
+    font-size: .85rem;
+    margin-bottom: 20px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    background: #111827;
+    color: #9ca3af;
+    text-align: center;
+    padding: 20px 16px;
+    margin-top: 40px;
+    font-size: .85rem;
+}
+
+/* ---------- Aksi bar ---------- */
+.bar-aksi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filters input,
+.filters select {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .85rem;
+}
+
+h1.halaman {
+    font-size: 1.4rem;
+    color: #111827;
+    margin-bottom: 16px;
+}
