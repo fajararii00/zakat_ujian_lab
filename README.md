@@ -9,13 +9,14 @@ Aplikasi web berbasis **PHP** dan **MySQL** untuk mengelola zakat maal: pencatat
 ### Halaman Publik
 - **Beranda** — ringkasan jumlah muzakki dan total zakat terkumpul.
 - **Info & Panduan** — materi nisab, kadar, syarat wajib, jenis harta, dan 8 asnaf penerima zakat.
-- **Kalkulator Zakat** — hitung zakat dari uang tunai, tabungan, dan emas secara otomatis.
+- **Kalkulator Zakat** — hitung zakat dari uang tunai, tabungan, dan emas secara otomatis memakai harga emas dari pengaturan admin.
 
 ### Panel Admin (perlu login)
 - **Dashboard** — statistik muzakki, transaksi, dan zakat terkumpul + transaksi terbaru.
 - **Muzakki** — kelola data pembayar zakat (tambah / ubah / hapus / cari).
-- **Transaksi** — catat pembayaran zakat dengan jumlah zakat terhitung otomatis dari harta muzakki.
+- **Transaksi** — catat pembayaran zakat; jumlah zakat otomatis terhitung dari harta muzakki jika dikosongkan.
 - **Laporan** — filter laporan per periode & metode, cetak, dan export CSV.
+- **Pengaturan** — ubah harga emas per gram yang dipakai untuk perhitungan nisab & zakat.
 - **Users** — kelola akun admin.
 
 ---
@@ -79,12 +80,12 @@ Aplikasi web berbasis **PHP** dan **MySQL** untuk mengelola zakat maal: pencatat
 
 - **Nisab** = 85 gram emas
 - **Kadar** = 2,5%
-- Harga emas per gram (default Rp 1.300.000) dapat diubah dari halaman kalkulator.
+- Harga emas per gram (default Rp 1.300.000) disimpan di tabel `settings` dan **diatur oleh admin** melalui menu **Pengaturan**.
 - Zakat dihitung jika **total harta ≥ nisab**:
   ```
   Zakat = Total Harta × 2,5%
   ```
-- Pada pencatatan transaksi, jumlah zakat otomatis dihitung dari `total_harta` muzakki.
+- Pada pencatatan transaksi, jika kolom jumlah zakat dikosongkan maka otomatis dihitung dari `total_harta` muzakki (dengan cek nisab).
 
 ---
 
@@ -97,7 +98,7 @@ zakat/
 ├── includes/
 │   ├── db.php               # koneksi database
 │   ├── auth.php             # proteksi halaman admin
-│   ├── functions.php        # helper zakat & format rupiah
+│   ├── functions.php        # helper zakat, format rupiah, & pagination
 │   ├── header.php           # layout publik
 │   ├── header_admin.php     # layout admin
 │   └── footer.php           # penutup layout
@@ -110,10 +111,11 @@ zakat/
 ├── logout.php               # keluar sesi
 └── admin/                   # panel admin (dilindungi login)
     ├── index.php            # dashboard
-    ├── muzakki.php          # + tambah/edit/hapus
-    ├── transaksi.php        # + tambah/edit/hapus
+    ├── muzakki.php          # + tambah/edit/hapus (dengan pagination)
+    ├── transaksi.php        # + tambah/edit/hapus (dengan pagination)
     ├── laporan.php          # laporan & export CSV
-    └── users.php            # + tambah/edit/hapus akun admin
+    ├── pengaturan.php       # ubah harga emas per gram
+    └── users.php            # + tambah/edit/hapus akun admin (dengan pagination)
 ```
 
 ---
@@ -123,6 +125,7 @@ zakat/
 - **users** — `id`, `nama`, `username`, `password`, `created_at`
 - **muzakki** — `id`, `nama`, `jenis_kelamin`, `alamat`, `no_hp`, `jenis_harta`, `total_harta`, `created_at`
 - **transaksi_zakat** — `id`, `muzakki_id` (FK), `jumlah_zakat`, `metode`, `tanggal_pembayaran`, `created_at`
+- **settings** — `kunci`, `nilai` (key-value); berisi `harga_emas_per_gram`
 
 ---
 
