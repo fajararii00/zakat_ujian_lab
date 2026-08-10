@@ -13,6 +13,7 @@ $totalHalaman = max(1, (int) ceil($totalUsers / $perHalaman));
 $data = mysqli_query($conn, "SELECT id, nama, username, created_at FROM users ORDER BY id LIMIT $perHalaman OFFSET $offset");
 ?>
 <div class="container">
+    
     <h1 class="halaman">Manajemen Admin</h1>
 
     <?php if (isset($_SESSION['pesan'])): ?>

@@ -11,6 +11,7 @@ $jmlUsers = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) c FROM users
 $transaksiTerbaru = mysqli_query($conn, "SELECT t.*, m.nama FROM transaksi_zakat t JOIN muzakki m ON m.id = t.muzakki_id ORDER BY t.tanggal_pembayaran DESC, t.id DESC LIMIT 5");
 ?>
 <div class="container">
+    <h1 class="brand">Zakat <span style="color: #FFD700;">Maal</span></h1>
     <h1 class="halaman">Dashboard</h1>
 
     <div class="grid-3">

@@ -27,6 +27,7 @@ if ($q !== '') {
 $totalHalaman = max(1, (int) ceil($totalTransaksi / $perHalaman));
 ?>
 <div class="container">
+    
     <h1 class="halaman">Transaksi Zakat</h1>
 
     <?php if (isset($_SESSION['pesan'])): ?>

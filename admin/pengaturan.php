@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $hargaSaatIni = hargaEmasPerGram();
 ?>
 <div class="container">
+    
     <h1 class="halaman">Pengaturan</h1>
 
     <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error) ?></div><?php endif; ?>

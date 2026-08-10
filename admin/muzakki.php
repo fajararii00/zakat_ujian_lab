@@ -27,6 +27,7 @@ if ($q !== '') {
 $totalHalaman = max(1, (int) ceil($totalMuzakki / $perHalaman));
 ?>
 <div class="container">
+    <h1 class="brand">Zakat <span style="color: #FFD700;">Maal</span></h1>
     <h1 class="halaman">Data Muzakki</h1>
 
     <?php if (isset($_SESSION['pesan'])): ?>

@@ -53,6 +53,7 @@ if (isset($_GET['csv'])) {
 require_once __DIR__ . '/../includes/header_admin.php';
 ?>
 <div class="container">
+    
     <h1 class="halaman">Laporan Zakat</h1>
 
     <div class="bar-aksi">
